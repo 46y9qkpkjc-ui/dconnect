@@ -1,0 +1,19 @@
+{
+  "name": "dconnect",
+  "version": "2.3.4",
+  "description": "DConnect — unified meetings & messaging for distributed teams",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^31.0.0"
+  },
+  "keywords": [
+    "meetings",
+    "messaging",
+    "video-conferencing",
+    "collaboration"
+  ],
+  "license": "UNLICENSED"
+}
