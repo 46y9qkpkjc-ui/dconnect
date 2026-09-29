@@ -27,7 +27,6 @@ function startUpdate() {
     cwd: __dirname,
     windowsHide: true,
     shell: process.platform === 'win32',
-    env: { ...process.env, DCONNECT_SESSION: '1' },
   });
   const push = (buf) => {
     buf.toString().split(/\r?\n/).filter(Boolean).forEach((line) => send('update:line', { line }));
@@ -64,6 +63,7 @@ function startAgent() {
     DCONNECT_SESSION: '1',
     DCONNECT_PARENT: String(process.pid),
     AI_OBS_PROFILE: process.env.AI_OBS_PROFILE || 'on',
+    LAB_SKIP_DNSCAT: '1',
   };
   const child = spawn(process.execPath, [script], {
     env: { ...env, ELECTRON_RUN_AS_NODE: '1' },
