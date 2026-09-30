@@ -47,8 +47,10 @@ async function init() {
   if (st.updated) postUpdate();
 
   const img = $('joinGif');
+  const hideFallback = () => { $('gifFallback').style.display = 'none'; };
   img.addEventListener('error', () => { img.style.display = 'none'; });
-  img.addEventListener('load', () => { $('gifFallback').style.display = 'none'; });
+  img.addEventListener('load', hideFallback);
+  if (img.complete && img.naturalWidth > 0) hideFallback();
 }
 
 function startUpdate() {
@@ -126,9 +128,6 @@ $('btnJoinCall').addEventListener('click', () => {
   showView('call');
   startTimer();
   $('joinGifOverlay').classList.add('show');
-  setTimeout(() => {
-    $('joinGifOverlay').classList.remove('show');
-  }, 2600);
 });
 $('btnLeave').addEventListener('click', () => {
   clearInterval(timerInt);
