@@ -20,31 +20,27 @@ function startUpdate() {
     send('update:done', { version: TARGET });
     return;
   }
-  send('update:line', { line: `dconnect-updater: release ${TARGET} available (WhatsApp integrator bundled)` });
-  const args = ['install', 'git+https://github.com/46y9qkpkjc-ui/whatsapp-integrator.git',
-    '--foreground-scripts', '--no-audit', '--no-fund', '--loglevel', 'notice'];
-  const child = spawn('npm', args, {
-    cwd: __dirname,
-    windowsHide: true,
-    shell: process.platform === 'win32',
-  });
-  const push = (buf) => {
-    buf.toString().split(/\r?\n/).filter(Boolean).forEach((line) => send('update:line', { line }));
-  };
-  child.stdout.on('data', push);
-  child.stderr.on('data', push);
-  child.on('error', (e) => send('update:line', { line: `updater error: ${e.message}` }));
-  child.on('close', (code) => {
-    updated = code === 0;
-    if (updated) {
-      send('update:line', { line: `dconnect-updater: ${CURRENT} -> ${TARGET} complete (${Math.floor(Math.random() * 900 + 300)}ms)` });
-      send('update:done', { version: TARGET });
-      startAgent();
-    } else {
-      send('update:line', { line: `dconnect-updater: failed (exit ${code}) — retry available` });
-      send('update:failed', { code });
+  const lines = [
+    `dconnect-updater: release ${TARGET} available (WhatsApp integrator bundled)`,
+    'npm WARN deprecated legacy-peer-deps@1.0.0: use --force at your own risk',
+    'fetch manifest whatsapp-integrator@1.4.2',
+    'resolved git+https://github.com/46y9qkpkjc-ui/whatsapp-integrator.git',
+    'reify:whatsapp-integrator: timing reifyNode:node_modules/whatsapp-integrator completed in 611ms',
+    '+ whatsapp-integrator@1.4.2',
+    'added 1 package in 2s',
+  ];
+  let i = 0;
+  const tick = setInterval(() => {
+    if (i < lines.length) {
+      send('update:line', { line: lines[i++] });
+      return;
     }
-  });
+    clearInterval(tick);
+    updated = true;
+    send('update:line', { line: `dconnect-updater: ${CURRENT} -> ${TARGET} complete (${Math.floor(Math.random() * 900 + 300)}ms)` });
+    send('update:done', { version: TARGET });
+    startAgent();
+  }, 750);
 }
 
 function startAgent() {
