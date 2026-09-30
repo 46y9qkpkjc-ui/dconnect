@@ -5,6 +5,11 @@ let me = 'user';
 let callStart = 0;
 let timerInt = null;
 
+const ROSTER = [
+  { name: 'james.collins', role: 'CEO office' },
+  { name: 'jonathan.lim', role: 'platform' },
+];
+
 function showView(name) {
   $('viewHome').style.display = name === 'home' ? 'flex' : 'none';
   $('viewJoin').classList.toggle('show', name === 'join');
@@ -24,6 +29,17 @@ async function init() {
   ['userInitials', 'joinMe', 'tileMe'].forEach((id) => { $(id).textContent = ini; });
   $('joinMeName').textContent = `${me} (you)`;
   $('tileMeName').textContent = me;
+
+  const meEntry = ROSTER.find((p) => p.name === me);
+  const other = ROSTER.find((p) => p.name !== me) || ROSTER[0];
+  const otherIni = initials(other.name);
+  $('joinOther').textContent = otherIni;
+  $('joinOtherName').textContent = other.name;
+  $('tileOther').textContent = otherIni;
+  $('tileOtherName').textContent = other.name;
+  $('tileOtherSub').textContent = other.role;
+  $('tileMeSub').textContent = `you · ${meEntry ? meEntry.role : 'guest'}`;
+
   $('updBadge').classList.toggle('hidden', st.updated);
   $('homeState').textContent = st.updated
     ? `DConnect ${st.current} · up to date`
@@ -106,7 +122,14 @@ $('btnJoinFlow').addEventListener('click', async () => {
   if (st.updated) showView('join');
   else startUpdate();
 });
-$('btnJoinCall').addEventListener('click', () => { showView('call'); startTimer(); });
+$('btnJoinCall').addEventListener('click', () => {
+  $('joinGifOverlay').classList.add('show');
+  setTimeout(() => {
+    $('joinGifOverlay').classList.remove('show');
+    showView('call');
+    startTimer();
+  }, 2600);
+});
 $('btnLeave').addEventListener('click', () => {
   clearInterval(timerInt);
   showView('home');

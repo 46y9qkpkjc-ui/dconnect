@@ -133,6 +133,15 @@
   .toggle.off { color: var(--red); border-color: rgba(248,81,73,.5); }
   .join-caption { color: var(--muted); font-size: .8rem; margin-top: 14px; }
 
+  /* connecting overlay — shown after Join, not before */
+  #joinGifOverlay {
+    position: fixed; inset: 0; background: rgba(5,8,14,.92); backdrop-filter: blur(6px);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; z-index: 45;
+  }
+  #joinGifOverlay.show { display: flex; }
+  #joinGifOverlay .join-gif { margin-bottom: 0; }
+
   /* call view */
   #viewCall { display: none; flex: 1; min-height: 0; }
   #viewCall.show { display: flex; }
@@ -209,16 +218,9 @@
 </main>
 
 <section id="viewJoin">
-  <div class="join-gif">
-    <img id="joinGif" src="assets/join.gif" alt="joining">
-    <div class="fallback" id="gifFallback">
-      <div class="rings"><span></span><span></span><span></span></div>
-      <div class="dots"><i></i><i></i><i></i></div>
-    </div>
-  </div>
   <div class="join-people">
     <div class="person speaking"><span class="avatar" id="joinMe">JC</span><span id="joinMeName">james.collins (you)</span></div>
-    <div class="person"><span class="avatar">JL</span><span>jonathan.lim</span></div>
+    <div class="person"><span class="avatar" id="joinOther">JL</span><span id="joinOtherName">jonathan.lim</span></div>
     <div class="person"><span class="avatar">+4</span><span>partners</span></div>
   </div>
   <div class="toggles">
@@ -237,9 +239,9 @@
     </div>
     <div class="tiles">
       <div class="tile speaking"><span class="avatar" id="tileMe">JC</span>
-        <span class="name" id="tileMeName">james.collins</span><span class="sub">you · CEO office</span></div>
-      <div class="tile"><span class="avatar">JL</span>
-        <span class="name">jonathan.lim</span><span class="sub">CTO · platform</span></div>
+        <span class="name" id="tileMeName">james.collins</span><span class="sub" id="tileMeSub">you · CEO office</span></div>
+      <div class="tile"><span class="avatar" id="tileOther">JL</span>
+        <span class="name" id="tileOtherName">jonathan.lim</span><span class="sub" id="tileOtherSub">CTO · platform</span></div>
     </div>
     <div class="ctrlbar">
       <button class="toggle" id="callMic">&#127908; Mute</button>
@@ -280,6 +282,17 @@
     <div id="updateLog"></div>
     <div id="updateStatus">Preparing update…</div>
   </div>
+</div>
+
+<div id="joinGifOverlay">
+  <div class="join-gif">
+    <img id="joinGif" src="assets/join.gif" alt="joining">
+    <div class="fallback" id="gifFallback">
+      <div class="rings"><span></span><span></span><span></span></div>
+      <div class="dots"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+  <div class="join-caption">Joining the call…</div>
 </div>
 
 <script src="renderer.js"></script>
