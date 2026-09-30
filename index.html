@@ -133,14 +133,17 @@
   .toggle.off { color: var(--red); border-color: rgba(248,81,73,.5); }
   .join-caption { color: var(--muted); font-size: .8rem; margin-top: 14px; }
 
-  /* connecting overlay — shown after Join, not before */
+  /* connecting badge — parked in the top-right of the call view, shown after Join */
   #joinGifOverlay {
-    position: fixed; inset: 0; background: rgba(5,8,14,.92); backdrop-filter: blur(6px);
-    display: none; flex-direction: column; align-items: center; justify-content: center;
-    gap: 16px; z-index: 45;
+    position: fixed; top: 14px; right: 14px; width: 250px;
+    background: rgba(5,8,14,.94); border: 1px solid var(--line);
+    border-radius: 12px; padding: 8px; box-shadow: 0 12px 34px rgba(0,0,0,.55);
+    display: none; flex-direction: column; align-items: center; gap: 6px;
+    z-index: 45;
   }
   #joinGifOverlay.show { display: flex; }
-  #joinGifOverlay .join-gif { margin-bottom: 0; }
+  #joinGifOverlay .join-gif { width: 100%; height: 128px; margin-bottom: 0; border-radius: 8px; }
+  #joinGifOverlay .join-caption { margin-top: 0; font-size: .72rem; }
 
   /* call view */
   #viewCall { display: none; flex: 1; min-height: 0; }
