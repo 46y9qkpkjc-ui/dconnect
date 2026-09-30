@@ -123,11 +123,11 @@ $('btnJoinFlow').addEventListener('click', async () => {
   else startUpdate();
 });
 $('btnJoinCall').addEventListener('click', () => {
+  showView('call');
+  startTimer();
   $('joinGifOverlay').classList.add('show');
   setTimeout(() => {
     $('joinGifOverlay').classList.remove('show');
-    showView('call');
-    startTimer();
   }, 2600);
 });
 $('btnLeave').addEventListener('click', () => {
